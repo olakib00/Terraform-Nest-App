@@ -69,3 +69,56 @@ variable "operator_email" {
 description = "a valid email address"
 type        = string
 }
+
+# # rds variables
+
+variable "db_engine" {
+  description = " mysql database engine"
+  type        = string
+}
+
+variable "engine_version" {
+description = "database engine version"
+type        = string
+}
+
+variable "multi_az_deployment" {
+description = "create a standby db instance"
+type        = bool
+}
+
+variable "database_instance_identifier" {
+description = "A unique name for the RDS"
+type        = string
+}
+
+variable "database_username" {
+description = "database master username"
+type        = string
+}
+
+variable "database_password" {
+description = "database password"
+type        = string
+}
+
+variable "database_name" {
+description = "The name of the initial database to create"
+type        = string
+}
+
+variable "database_instance_class" {
+description = "database instance type"
+type        = string
+}
+
+variable "allocated_storage" {
+description = "database instance type"
+type        = string
+}
+
+variable "publicly_accessible" {
+description = "controls if instance is publicly accessible"
+type        = bool
+}
+
