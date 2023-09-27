@@ -48,3 +48,19 @@ variable "private_data_subnet_az2_cidr" {
 description = "private data subnet az2 cidr block"
 type        = string
 }
+
+
+variable "domain_name" {
+  description = "datatbase instance identifier"
+  type        = string
+}
+
+variable "alternative_names" {
+  description = "alternative name for our domain name"
+  type        = string
+}
+
+variable "record_name" {
+  description = "database snapshot name"
+  type        = string
+}
