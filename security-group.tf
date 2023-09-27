@@ -50,34 +50,9 @@ resource "aws_security_group" "alb_security_group" {
   }
 }
 
-# create security group for the bastion host aka jump box
-resource "aws_security_group" "bastion_security_group" {
-  name        = "${var.project_name}-${var.environment}-bastion-sg"
-  description = "enable ssh access on port 22"
-  vpc_id      = aws_vpc.vpc.id
-
-  ingress {
-    description      = "ssh access"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["81.97.132.10/32"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = -1
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name = "${var.project_name}-${var.environment}-bastion-sg"
-  }
-}
-
-# create security group for the app server
+# create security group for the webapp server
 resource "aws_security_group" "app_server_security_group" {
-  name        = "${var.project_name}-${var.environment}-app-server-sg"
+  name        = "${var.project_name}-${var.environment}-web-server-sg"
   description = "enable http/https access on port 80/443 via alb sg and ssh via eice sg"
   vpc_id      = aws_vpc.vpc.id
 
@@ -97,7 +72,6 @@ resource "aws_security_group" "app_server_security_group" {
     security_groups = [aws_security_group.alb_security_group.id]
   }
 
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -105,9 +79,13 @@ resource "aws_security_group" "app_server_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.project_name}-${var.environment}-app-server-sg"
-  }
+    ingress {
+    description     = "ssh access"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.eice_security_group.id]
+}
 }
 
 # create security group for the database
@@ -123,16 +101,7 @@ resource "aws_security_group" "database_security_group" {
     protocol        = "tcp"
     security_groups = [aws_security_group.app_server_security_group.id]
   }
-
-  ingress {
-    description     = "custom access"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = [aws_security_group.bastion_security_group.id]
-  }
-
-
+  
   egress {
     from_port   = 0
     to_port     = 0
