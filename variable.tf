@@ -56,11 +56,16 @@ variable "domain_name" {
 }
 
 variable "alternative_names" {
-  description = "alternative name for our domain name"
+  description = "sub domain name for an SSL certificate"
   type        = string
 }
 
 variable "record_name" {
   description = "database snapshot name"
   type        = string
+}
+# # sns topic variables
+variable "operator_email" {
+description = "a valid email address"
+type        = string
 }
