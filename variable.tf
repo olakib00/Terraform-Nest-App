@@ -122,3 +122,18 @@ description = "controls if instance is publicly accessible"
 type        = bool
 }
 
+# ec2 instance migrate variables
+variable "amazon_linux_ami_id" {
+  description = "The ID of the AMI to use for the EC2 instance."
+  type        = string
+}
+
+variable "ec2_instance_type" {
+  description = "The EC2 instance type."
+  type        = string
+}
+
+variable "rds_endpoint" {
+  description = "RDS endpoint for data migration."
+  type        = string
+}
